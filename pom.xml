@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.qmetric.document</groupId>
+    <artifactId>pdf-watermark</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>pdf-watermark</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <maven-release-plugin.version>2.1</maven-release-plugin.version>
+        <maven-surefire-plugin.version>2.8</maven-surefire-plugin.version>
+        <maven-versions-plugin.version>1.2</maven-versions-plugin.version>
+
+        <bouncycastle.version>1.46</bouncycastle.version>
+        <hamcrest.version>1.1</hamcrest.version>
+        <itext.version>5.1.0</itext.version>
+        <junit.version>4.8.1</junit.version>
+        <mockito.version>1.8.5</mockito.version>
+        <qmg-testing.version>3.1</qmg-testing.version>
+        <qmg-utilities.version>3.4</qmg-utilities.version>
+        <xstream.version>1.4.2</xstream.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Java 1.6 usage -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+                <configuration>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <forkMode>once</forkMode>
+                    <argLine>-Xmx1G -XX:MaxPermSize=512m</argLine>
+                    <testNGArtifactName>none:none</testNGArtifactName>
+                    <testFailureIgnore>false</testFailureIgnore>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>${maven-versions-plugin.version}</version>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.qmetric.utilities</groupId>
+            <artifactId>file</artifactId>
+            <version>${qmg-utilities.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.qmetric.utilities</groupId>
+            <artifactId>io</artifactId>
+            <version>${qmg-utilities.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+
+        <!-- test scoped dependencies -->
+
+        <dependency>
+            <groupId>com.qmetric.testing</groupId>
+            <artifactId>hamcrest</artifactId>
+            <version>${qmg-testing.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk14</artifactId>
+            <version>${bouncycastle.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>qmetric-snapshot</name>
+            <url>https://ci.qmetric.co.uk/nexus/content/repositories/qmetric-snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus</id>
+            <name>qmetric-releases</name>
+            <url>https://ci.qmetric.co.uk/nexus/content/repositories/qmetric-releases</url>
+        </repository>
+    </distributionManagement>
+
+    <scm>
+        <url>git://github.com/qmetric/pdf-watermark.git</url>
+        <connection>scm:git:git://github.com/qmetric/pdf-watermark.git</connection>
+        <developerConnection>scm:git:git@github.com:qmetric/pdf-watermark.git</developerConnection>
+    </scm>
+
+</project>
