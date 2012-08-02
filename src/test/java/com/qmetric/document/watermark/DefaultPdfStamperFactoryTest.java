@@ -2,7 +2,6 @@ package com.qmetric.document.watermark;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import com.qmetric.document.watermark.DefaultPdfStamperFactory;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileSystemException;
 import org.junit.Test;

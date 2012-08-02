@@ -1,7 +1,6 @@
 package com.qmetric.document.watermark;
 
 import com.itextpdf.text.pdf.PdfReader;
-import com.qmetric.document.watermark.DefaultPdfReaderFactory;
 import com.qmetric.utilities.file.FileUtils;
 import org.apache.commons.vfs.FileContent;
 import org.junit.Before;

@@ -3,7 +3,6 @@ package com.qmetric.document.watermark;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfReader;
-import com.qmetric.document.watermark.PdfWatermarkFactory;
 import com.qmetric.utilities.file.FileUtils;
 import com.qmetric.utilities.io.ImageUtils;
 import org.junit.Before;
