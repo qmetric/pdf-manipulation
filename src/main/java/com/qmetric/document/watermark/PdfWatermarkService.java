@@ -15,7 +15,7 @@ package com.qmetric.document.watermark;
  * commercial activities involving the iText software without disclosing the source code of your own applications. These activities include: offering
  * paid services to customers as an ASP, serving PDFs on the fly in a web application, shipping iText with a closed source product.
  */
-public interface DocumentWatermarkService
+public interface PdfWatermarkService
 {
-    void watermark(String documentSourcePath, String documentOutputPath) throws Exception;
+    void watermark(final String documentSourcePath, final String documentOutputPath) throws Exception;
 }

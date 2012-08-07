@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class DocumentWatermarkServiceImplTest
+public class PdfWatermarkServiceImplTest
 {
     static final String DOCUMENT_SOURCE_PATH = "documentSourcePath";
 
@@ -28,7 +28,7 @@ public class DocumentWatermarkServiceImplTest
 
     private FileUtils fileUtils;
 
-    private DocumentWatermarkService documentWatermarkService;
+    private PdfWatermarkService pdfWatermarkService;
 
     @Before
     public void context()
@@ -38,11 +38,11 @@ public class DocumentWatermarkServiceImplTest
         pdfWatermarkFactory = mock(PdfWatermarkFactory.class);
         fileUtils = mock(FileUtils.class);
 
-        documentWatermarkService = new DocumentWatermarkServiceImpl(pdfReaderFactory, pdfStamperFactory, pdfWatermarkFactory, fileUtils);
+        pdfWatermarkService = new PdfWatermarkServiceImpl(pdfReaderFactory, pdfStamperFactory, pdfWatermarkFactory, fileUtils);
     }
 
     @Test
-    public void shouldAddWatermarkImageToEveryPageInSourceDocument() throws Exception
+    public void shouldAddWatermarkImageToEveryPageInSourcePdf() throws Exception
     {
         final FileObject sourcePdf = mock(FileObject.class);
         final FileContent sourceFileContent = mock(FileContent.class);
@@ -71,7 +71,7 @@ public class DocumentWatermarkServiceImplTest
         final Image watermark = mock(Image.class);
         when(pdfWatermarkFactory.createImage(reader)).thenReturn(watermark);
 
-        documentWatermarkService.watermark(DOCUMENT_SOURCE_PATH, DOCUMENT_OUTPUT_PATH);
+        pdfWatermarkService.watermark(DOCUMENT_SOURCE_PATH, DOCUMENT_OUTPUT_PATH);
 
         Mockito.verify(page1Content).addImage(watermark);
         Mockito.verify(page2Content).addImage(watermark);
