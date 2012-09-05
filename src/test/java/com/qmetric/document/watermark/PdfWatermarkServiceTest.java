@@ -1,9 +1,9 @@
 package com.qmetric.document.watermark;
 
-import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import com.qmetric.document.watermark.strategy.PdfWatermarkStrategy;
 import com.qmetric.utilities.file.FileUtils;
 import org.apache.commons.vfs.FileContent;
 import org.apache.commons.vfs.FileObject;
@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class PdfWatermarkServiceImplTest
+public class PdfWatermarkServiceTest
 {
     static final String DOCUMENT_SOURCE_PATH = "documentSourcePath";
 
@@ -24,7 +24,7 @@ public class PdfWatermarkServiceImplTest
 
     private PdfStamperFactory pdfStamperFactory;
 
-    private PdfWatermarkFactory pdfWatermarkFactory;
+    private PdfWatermarkStrategy pdfWatermarkStrategy;
 
     private FileUtils fileUtils;
 
@@ -35,10 +35,10 @@ public class PdfWatermarkServiceImplTest
     {
         pdfReaderFactory = mock(PdfReaderFactory.class);
         pdfStamperFactory = mock(PdfStamperFactory.class);
-        pdfWatermarkFactory = mock(PdfWatermarkFactory.class);
+        pdfWatermarkStrategy = mock(PdfWatermarkStrategy.class);
         fileUtils = mock(FileUtils.class);
 
-        pdfWatermarkService = new PdfWatermarkServiceImpl(pdfReaderFactory, pdfStamperFactory, pdfWatermarkFactory, fileUtils);
+        pdfWatermarkService = new PdfWatermarkService(pdfReaderFactory, pdfStamperFactory, fileUtils);
     }
 
     @Test
@@ -68,13 +68,9 @@ public class PdfWatermarkServiceImplTest
         when(outputPdf.getOverContent(2)).thenReturn(page2Content);
         when(pdfStamperFactory.newPdfStamper(reader, outputFileContent)).thenReturn(outputPdf);
 
-        final Image watermark = mock(Image.class);
-        when(pdfWatermarkFactory.createImage(reader)).thenReturn(watermark);
+        pdfWatermarkService.watermark(DOCUMENT_SOURCE_PATH, DOCUMENT_OUTPUT_PATH, pdfWatermarkStrategy);
 
-        pdfWatermarkService.watermark(DOCUMENT_SOURCE_PATH, DOCUMENT_OUTPUT_PATH);
-
-        Mockito.verify(page1Content).addImage(watermark);
-        Mockito.verify(page2Content).addImage(watermark);
+        Mockito.verify(pdfWatermarkStrategy).apply(reader, outputPdf);
 
         Mockito.verify(outputPdf).close();
 
