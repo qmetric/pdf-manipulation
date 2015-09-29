@@ -23,8 +23,6 @@
         <itext.version>5.1.0</itext.version>
         <junit.version>4.8.1</junit.version>
         <mockito.version>1.8.5</mockito.version>
-        <qmg-testing.version>3.1</qmg-testing.version>
-        <xstream.version>1.4.2</xstream.version>
     </properties>
 
     <build>
@@ -73,13 +71,6 @@
         </dependency>
 
         <!-- test scoped dependencies -->
-
-        <dependency>
-            <groupId>com.qmetric.testing</groupId>
-            <artifactId>hamcrest</artifactId>
-            <version>${qmg-testing.version}</version>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
