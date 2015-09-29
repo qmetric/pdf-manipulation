@@ -17,7 +17,7 @@ public class DefaultPdfStamperFactoryTest
 
     private DefaultPdfStamperFactory defaultPdfStamperFactory = new DefaultPdfStamperFactory(OWNER_PASSWORD);
 
-    private Path destination = Paths.get("../../target");
+    private Path destination = Paths.get("/tmp/tmp.pdf");
 
     private PdfReader reader;
 
