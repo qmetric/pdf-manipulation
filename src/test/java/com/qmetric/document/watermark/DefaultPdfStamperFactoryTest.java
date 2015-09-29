@@ -2,70 +2,57 @@ package com.qmetric.document.watermark;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import org.apache.commons.vfs.FileContent;
-import org.apache.commons.vfs.FileSystemException;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 public class DefaultPdfStamperFactoryTest
 {
+    private static final String OWNER_PASSWORD = "test";
+
     private DefaultPdfStamperFactory defaultPdfStamperFactory = new DefaultPdfStamperFactory(OWNER_PASSWORD);
 
-    private final PdfReader reader = mock(PdfReader.class);
+    private Path destination = Paths.get("../../target");
 
-    private final FileContent content = mock(FileContent.class);
+    private PdfReader reader;
 
-    private static final String OWNER_PASSWORD = "";
+    @Before
+    public void context() throws Exception {
+        reader = new PdfReader(getClass().getResource("/pdf/ExpectedDocument.pdf"));
+    }
 
     @Test
-    public void showCreateNewStamperUsingSuppliedPdf()
+    public void showCreateNewStamperUsingSuppliedPdf() throws Exception
     {
-        final PdfStamper stamper = defaultPdfStamperFactory.newPdfStamper(reader, content);
+        final PdfStamper stamper = defaultPdfStamperFactory.newPdfStamper(reader, destination);
 
         assertThat(stamper.getReader(), equalTo(reader));
     }
 
     @Test
+    public void shouldSetNoEncryptionOptionsOnStamper() throws Exception
+    {
+        reader = new PdfReader(getClass().getResource("/pdf/ExpectedDocument.pdf"), OWNER_PASSWORD.getBytes());
+        defaultPdfStamperFactory.newPdfStamper(reader, destination);
+
+        final int cryptoMode = reader.getCryptoMode();
+
+        assertThat(cryptoMode, equalTo(-1));
+    }
+
+    @Test
     public void shouldSetEncryptionOptionsOnStamper() throws Exception
     {
-        final OutputStream outputStream = mock(OutputStream.class);
+        reader = new PdfReader(getClass().getResource("/pdf/pdf-example-password.original.pdf"), OWNER_PASSWORD.getBytes());
+        defaultPdfStamperFactory.newPdfStamper(reader, destination);
 
-        when(content.getOutputStream()).thenReturn(outputStream);
-        when(reader.getPermissions()).thenReturn(1);
-        when(reader.getCryptoMode()).thenReturn(2);
+        final int cryptoMode = reader.getCryptoMode();
 
-        when(reader.isEncrypted()).thenReturn(true);
-
-        defaultPdfStamperFactory.newPdfStamper(reader, content);
-
-        verify(reader).getCryptoMode();
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void wrapsExceptionsAsRuntimeException() throws Exception
-    {
-        //noinspection ThrowableInstanceNeverThrown
-        when(content.getOutputStream()).thenThrow(new FileSystemException("exception"));
-
-        defaultPdfStamperFactory.newPdfStamper(reader, content);
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void wrapsDocumentExceptionAsRuntimeException() throws Exception
-    {
-        final OutputStream outputStream = mock(OutputStream.class);
-        when(content.getOutputStream()).thenReturn(outputStream);
-
-        //noinspection ThrowableInstanceNeverThrown
-        when(reader.getCryptoMode()).thenThrow(new com.itextpdf.text.DocumentException("doc exception"));
-
-        defaultPdfStamperFactory.newPdfStamper(reader, content);
+        assertThat(cryptoMode, equalTo(1));
     }
 }

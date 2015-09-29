@@ -1,15 +1,13 @@
 package com.qmetric.document.watermark;
 
 import com.itextpdf.text.pdf.PdfReader;
-import com.qmetric.utilities.file.FileUtils;
-import org.apache.commons.vfs.FileContent;
-import org.junit.Before;
 import org.junit.Test;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU Affero General Public License version 3 as
@@ -28,24 +26,23 @@ import static org.mockito.Mockito.when;
  */
 public class DefaultPdfReaderFactoryTest
 {
+    static byte[] bytes;
+    static {
+        try {
+            bytes = Files.readAllBytes(Paths.get(DefaultPdfReaderFactoryTest.class.getResource("/pdf/ExpectedDocument.pdf").toURI()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private DefaultPdfReaderFactory defaultPdfReaderFactory = new DefaultPdfReaderFactory("password");
 
-    private FileContent pdfFile = mock(FileContent.class);
-
-    private FileContent content;
-
-    @Before
-    public void setup() throws Exception
-    {
-        content = new FileUtils().resolveFile("res:pdf/ExpectedDocument.pdf").getContent();
-        when(pdfFile.getInputStream()).thenReturn(content.getInputStream());
-    }
 
     @Test
     public void createsPdfFromFileContent() throws Exception
     {
-        final PdfReader pdfReader = defaultPdfReaderFactory.newPdfReader(pdfFile);
+        final PdfReader pdfReader = defaultPdfReaderFactory.newPdfReader(bytes);
 
-        assertThat((long) pdfReader.getFileLength(), equalTo(content.getSize()));
+        assertThat(pdfReader.getFileLength(), equalTo(bytes.length));
     }
 }

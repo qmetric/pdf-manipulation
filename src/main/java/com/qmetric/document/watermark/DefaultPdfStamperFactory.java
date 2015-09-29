@@ -1,10 +1,12 @@
 package com.qmetric.document.watermark;
 
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import org.apache.commons.vfs.FileContent;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU Affero General Public License version 3 as
@@ -21,34 +23,25 @@ import java.io.IOException;
  * commercial activities involving the iText software without disclosing the source code of your own applications. These activities include: offering
  * paid services to customers as an ASP, serving PDFs on the fly in a web application, shipping iText with a closed source product.
  */
-public class DefaultPdfStamperFactory implements PdfStamperFactory
-{
+public class DefaultPdfStamperFactory implements PdfStamperFactory {
     private final byte[] ownerPassword;
 
-    public DefaultPdfStamperFactory(final String passwordString)
-    {
+    public DefaultPdfStamperFactory(final String passwordString) {
         this.ownerPassword = passwordString.getBytes();
     }
 
-    @Override public PdfStamper newPdfStamper(final PdfReader pdfReader, final FileContent fileContent)
-    {
-        try
-        {
-            final PdfStamper pdf = new PdfStamper(pdfReader, fileContent.getOutputStream());
+    @Override
+    public PdfStamper newPdfStamper(PdfReader pdfReader, Path destination) {
 
-            if (pdfReader.isEncrypted())
-            {
-                pdf.setEncryption(null, ownerPassword, pdfReader.getPermissions(), pdfReader.getCryptoMode());
+        try {
+            PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileOutputStream(destination.toString()));
+
+            if (pdfReader.isEncrypted()) {
+                pdfStamper.setEncryption(null, ownerPassword, pdfReader.getPermissions(), pdfReader.getCryptoMode());
             }
 
-            return pdf;
-        }
-        catch (IOException ioe)
-        {
-            throw new RuntimeException(ioe);
-        }
-        catch (com.itextpdf.text.DocumentException e)
-        {
+            return pdfStamper;
+        } catch (DocumentException | IOException e) {
             throw new RuntimeException(e);
         }
     }

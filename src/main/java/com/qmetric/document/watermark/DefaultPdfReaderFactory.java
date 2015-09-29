@@ -1,7 +1,6 @@
 package com.qmetric.document.watermark;
 
 import com.itextpdf.text.pdf.PdfReader;
-import org.apache.commons.vfs.FileContent;
 
 import java.io.IOException;
 
@@ -20,17 +19,15 @@ import java.io.IOException;
  * commercial activities involving the iText software without disclosing the source code of your own applications. These activities include: offering
  * paid services to customers as an ASP, serving PDFs on the fly in a web application, shipping iText with a closed source product.
  */
-public class DefaultPdfReaderFactory implements PdfReaderFactory
-{
+public class DefaultPdfReaderFactory implements PdfReaderFactory {
     private final byte[] ownerPassword;
 
-    public DefaultPdfReaderFactory(final String passwordString)
-    {
+    public DefaultPdfReaderFactory(final String passwordString) {
         this.ownerPassword = passwordString.getBytes();
     }
 
-    @Override public PdfReader newPdfReader(final FileContent fileContent) throws IOException
-    {
-        return new PdfReader(fileContent.getInputStream(), ownerPassword);
+    @Override
+    public PdfReader newPdfReader(byte[] data) throws IOException {
+        return new PdfReader(data, ownerPassword);
     }
 }

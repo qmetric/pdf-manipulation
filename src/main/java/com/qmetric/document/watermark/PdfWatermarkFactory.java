@@ -3,8 +3,10 @@ package com.qmetric.document.watermark;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfReader;
-import com.qmetric.utilities.file.FileUtils;
-import com.qmetric.utilities.io.ImageUtils;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU Affero General Public License version 3 as
@@ -21,46 +23,32 @@ import com.qmetric.utilities.io.ImageUtils;
  * commercial activities involving the iText software without disclosing the source code of your own applications. These activities include: offering
  * paid services to customers as an ASP, serving PDFs on the fly in a web application, shipping iText with a closed source product.
  */
-public class PdfWatermarkFactory
-{
-    private final FileUtils fileUtils;
+public class PdfWatermarkFactory {
+    private final Path imagePath;
 
-    private final ImageUtils imageUtils;
-
-    private final String imagePath;
-
-    public PdfWatermarkFactory(final FileUtils fileUtils, final ImageUtils imageUtils, final String imagePath)
-    {
-        this.fileUtils = fileUtils;
-        this.imageUtils = imageUtils;
-        this.imagePath = imagePath;
+    public PdfWatermarkFactory(final String imagePath) {
+        this.imagePath = Paths.get(imagePath);
     }
 
-    public Image createImage(final PdfReader reader)
-    {
+    public Image createImage(final PdfReader reader) {
         final Rectangle pageSize = reader.getPageSize(1);
 
-        try
-        {
-            final Image image = imageUtils.getInstance(fileUtils.bytesFrom(imagePath));
+        try {
+            final Image image = Image.getInstance(Files.readAllBytes(imagePath));
 
             image.setAbsolutePosition(getXOffset(pageSize, image), getYOffset(pageSize, image));
 
             return image;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private float getXOffset(final Rectangle pageSize, final Image image)
-    {
+    private float getXOffset(final Rectangle pageSize, final Image image) {
         return (float) Math.round(pageSize.getWidth() - image.getWidth()) / 2;
     }
 
-    private float getYOffset(final Rectangle pageSize, final Image image)
-    {
+    private float getYOffset(final Rectangle pageSize, final Image image) {
         return (float) Math.round(pageSize.getHeight() - image.getHeight()) / 2;
     }
 }

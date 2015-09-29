@@ -2,7 +2,8 @@ package com.qmetric.document.watermark;
 
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import org.apache.commons.vfs.FileContent;
+
+import java.nio.file.Path;
 
 /**
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU Affero General Public License version 3 as
@@ -21,5 +22,5 @@ import org.apache.commons.vfs.FileContent;
  */
 public interface PdfStamperFactory
 {
-    PdfStamper newPdfStamper(PdfReader pdfReader, FileContent fileContent);
+    PdfStamper newPdfStamper(PdfReader pdfReader, Path destination);
 }

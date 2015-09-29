@@ -3,10 +3,9 @@ package com.qmetric.document.watermark;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.qmetric.document.watermark.strategy.PdfWatermarkStrategy;
-import com.qmetric.utilities.file.FileUtils;
-import org.apache.commons.vfs.FileObject;
 
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU Affero General Public License version 3 as
@@ -30,58 +29,19 @@ class PdfWatermarkService
 
     private final PdfStamperFactory pdfStamperFactory;
 
-    private final FileUtils fileUtils;
-
-    PdfWatermarkService(final PdfReaderFactory pdfReaderFactory, final PdfStamperFactory pdfStamperFactory, final FileUtils fileUtils)
+    PdfWatermarkService(final PdfReaderFactory pdfReaderFactory, final PdfStamperFactory pdfStamperFactory)
     {
         this.pdfReaderFactory = pdfReaderFactory;
         this.pdfStamperFactory = pdfStamperFactory;
-        this.fileUtils = fileUtils;
     }
 
     void watermark(final String documentSourcePath, final String documentOutputPath, final PdfWatermarkStrategy pdfWatermarkStrategy) throws Exception
     {
-        // source reader
-        final FileObject sourcePdf = fileUtils.resolveFile(documentSourcePath);
+        final PdfReader reader = pdfReaderFactory.newPdfReader(Files.readAllBytes(Paths.get(documentSourcePath)));
 
-        final PdfReader reader;
-        try
-        {
-            reader = pdfReaderFactory.newPdfReader(sourcePdf.getContent());
-        }
-        catch (final IOException e)
-        {
-            throw new RuntimeException(
-                    String.format("Failed to create new pdf reader because pdf password was incorrect. documentSourcePath[%s], " + "documentOutputPath[%s]", documentSourcePath,
-                                  documentOutputPath), e);
-        }
+        final PdfStamper outputPdf = pdfStamperFactory.newPdfStamper(reader, Paths.get(documentOutputPath));
 
-        // create a stamper that will copy the document to a new file
-        FileObject outputFile = null;
-        PdfStamper outputPdf = null;
-
-        try
-        {
-            outputFile = fileUtils.resolveFile(documentOutputPath);
-
-            outputPdf = pdfStamperFactory.newPdfStamper(reader, outputFile.getContent());
-
-            pdfWatermarkStrategy.apply(reader, outputPdf);
-        }
-        finally
-        {
-            cleanUp(sourcePdf, outputFile, outputPdf);
-        }
+        pdfWatermarkStrategy.apply(reader, outputPdf);
     }
 
-    private void cleanUp(final FileObject sourcePdf, final FileObject outputFile, final PdfStamper outputPdf) throws com.itextpdf.text.DocumentException, IOException
-    {
-        if (outputPdf != null)
-        {
-            outputPdf.close();
-        }
-
-        fileUtils.closeQuietly(outputFile);
-        fileUtils.closeQuietly(sourcePdf);
-    }
 }
