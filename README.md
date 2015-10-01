@@ -1,6 +1,6 @@
-pdf-watermark
-=============
+pdf-manipulation
+================
 
-[![Build Status](https://travis-ci.org/qmetric/pdf-watermark.png)](https://travis-ci.org/qmetric/pdf-watermark)
+[![Build Status](https://travis-ci.org/qmetric/pdf-manipulation.png)](https://travis-ci.org/qmetric/pdf-manipulation)
 
-PDF watermarking facility
+PDF manipulation facility
