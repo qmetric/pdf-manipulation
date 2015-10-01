@@ -33,8 +33,9 @@ public class ITextWatermarkTest {
 
             byte[] page1AsImage = getPageAsImage((PDPage) pdDocument.getDocumentCatalog().getAllPages().get(0));
 
-            System.out.println(page1AsImage.length);
-            System.out.println(expectedPage1WithWatermark.length);
+            System.out.println(Arrays.toString(page1AsImage));
+            System.out.println("\n\n\n");
+            System.out.println(Arrays.toString(expectedPage1WithWatermark));
 
             assertTrue(Arrays.equals(page1AsImage, expectedPage1WithWatermark));
         }
