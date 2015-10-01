@@ -10,16 +10,16 @@ public class ITextPasswordProtectionTest {
 
     @Test
     public void shouldAddPasswordProtection() throws Exception {
-        final byte[] unprotected = TestResources.get(TestResources.get("/unprotected.pdf"));
+        final byte[] unprotected = TestResources.get(TestResources.get("/unlocked.pdf"));
 
-        final byte[] bytes = new ITextPasswordProtection().addProtection(unprotected, "password".getBytes());
+        final byte[] bytes = new ITextPasswordProtection().addProtection(unprotected, "test".getBytes());
 
-        assertTrue(new PdfReader(bytes, "password".getBytes()).isEncrypted());
+        assertTrue(new PdfReader(bytes, "test".getBytes()).isEncrypted());
     }
 
     @Test
     public void shouldRemovePasswordProtection() throws Exception {
-        final byte[] protectedPdf = TestResources.get(TestResources.get("/password-protected.pdf"));
+        final byte[] protectedPdf = TestResources.get(TestResources.get("/locked.pdf"));
 
         final byte[] bytes = new ITextPasswordProtection().removeProtection(protectedPdf, "test".getBytes());
 
@@ -28,14 +28,14 @@ public class ITextPasswordProtectionTest {
 
     @Test(expected = RuntimeException.class)
     public void shouldThrowErrorWhenPasswordIncorrect() throws Exception {
-        final byte[] protectedPdf = TestResources.get(TestResources.get("/password-protected.pdf"));
+        final byte[] protectedPdf = TestResources.get(TestResources.get("/locked.pdf"));
 
         new ITextPasswordProtection().removeProtection(protectedPdf, "incorrect".getBytes());
     }
 
     @Test(expected = RuntimeException.class)
     public void shouldThrowErrorWhenAddingPasswordToPDFAlreadyProtected() throws Exception {
-        final byte[] protectedPdf = TestResources.get(TestResources.get("/password-protected.pdf"));
+        final byte[] protectedPdf = TestResources.get(TestResources.get("/locked.pdf"));
 
         new ITextPasswordProtection().addProtection(protectedPdf, "new password".getBytes());
     }

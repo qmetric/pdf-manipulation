@@ -19,7 +19,7 @@ public class ITextWatermarkTest {
 
     final byte[] password = "test".getBytes();
     final byte[] watermark = TestResources.get(TestResources.get("/watermark-image.png"));
-    final byte[] originalPdf = TestResources.get(TestResources.get("/password-protected.pdf"));
+    final byte[] originalPdf = TestResources.get(TestResources.get("/locked.pdf"));
     final byte[] expectedPage1WithWatermark = TestResources.get(TestResources.get("/1.jpg"));
 
     @Test
