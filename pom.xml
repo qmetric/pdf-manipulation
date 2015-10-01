@@ -10,11 +10,11 @@
     </parent>
 
     <groupId>com.qmetric.document</groupId>
-    <artifactId>pdf-watermark</artifactId>
+    <artifactId>pdf-manipulation</artifactId>
     <packaging>jar</packaging>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
-    <name>pdf-watermark</name>
+    <name>pdf-manipulation</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
