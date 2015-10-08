@@ -19,7 +19,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <bouncycastle.version>1.46</bouncycastle.version>
         <hamcrest.version>1.1</hamcrest.version>
-        <itext.version>5.1.0</itext.version>
         <junit.version>4.8.1</junit.version>
         <mockito.version>1.8.5</mockito.version>
     </properties>
@@ -64,9 +63,9 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itextpdf</artifactId>
-            <version>${itext.version}</version>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>1.8.10</version>
         </dependency>
 
         <!-- test scoped dependencies -->
@@ -82,13 +81,6 @@
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk14</artifactId>
             <version>${bouncycastle.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.pdfbox</groupId>
-            <artifactId>pdfbox</artifactId>
-            <version>1.8.10</version>
             <scope>test</scope>
         </dependency>
 
