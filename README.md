@@ -5,5 +5,5 @@ pdf-manipulation
 
 PDF manipulation facility
 
-* add or remove password protected
+* add or remove password protection
 * add a watermark image
