@@ -11,7 +11,7 @@
     <groupId>com.qmetric</groupId>
     <artifactId>pdf-manipulation</artifactId>
     <packaging>jar</packaging>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3</version>
 
     <name>pdf-manipulation</name>
 
