@@ -7,3 +7,4 @@ PDF manipulation facility
 
 * add or remove password protection
 * add a watermark image
+* add stamp message to each page footer
