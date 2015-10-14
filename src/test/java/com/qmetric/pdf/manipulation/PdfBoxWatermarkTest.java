@@ -1,5 +1,6 @@
 package com.qmetric.pdf.manipulation;
 
+import com.qmetric.pdf.manipulation.pdfbox.PdfBoxWatermark;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDResources;

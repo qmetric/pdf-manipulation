@@ -1,5 +1,7 @@
-package com.qmetric.pdf.manipulation;
+package com.qmetric.pdf.manipulation.pdfbox;
 
+import com.qmetric.pdf.helper.PDFAsBytes;
+import com.qmetric.pdf.manipulation.PasswordProtection;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.encryption.AccessPermission;
 import org.apache.pdfbox.pdmodel.encryption.StandardProtectionPolicy;
@@ -8,18 +10,18 @@ import java.io.ByteArrayInputStream;
 
 public class PdfBoxPasswordProtection implements PasswordProtection {
 
-    public final PDFToBytes pdfToBytes = new PDFToBytes();
+    private final PDFAsBytes pdfAsBytes = new PDFAsBytes();
 
     @Override
-    public byte[] removeProtection(byte[] originalPdf, byte[] password) throws RuntimeException {
-        try (ByteArrayInputStream bytes = new ByteArrayInputStream(originalPdf)) {
-            try (final PDDocument document = PDDocument.load(bytes)) {
+    public byte[] removeProtection(byte[] documentAsBytes, byte[] password) throws RuntimeException {
+        try (ByteArrayInputStream documentAsInputStream = new ByteArrayInputStream(documentAsBytes)) {
+            try (final PDDocument document = PDDocument.load(documentAsInputStream)) {
                 if (document.isEncrypted()) {
                     document.decrypt(new String(password));
                     document.setAllSecurityToBeRemoved(true);
                 }
 
-                return pdfToBytes.bytes(document);
+                return pdfAsBytes.valueOf(document);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -27,9 +29,9 @@ public class PdfBoxPasswordProtection implements PasswordProtection {
     }
 
     @Override
-    public byte[] addProtection(byte[] originalPdf, byte[] password) throws RuntimeException {
-        try (ByteArrayInputStream bytes = new ByteArrayInputStream(originalPdf)) {
-            try (final PDDocument document = PDDocument.load(bytes)) {
+    public byte[] addProtection(byte[] documentAsBytes, byte[] password) throws RuntimeException {
+        try (ByteArrayInputStream documentAsInputStream = new ByteArrayInputStream(documentAsBytes)) {
+            try (final PDDocument document = PDDocument.load(documentAsInputStream)) {
                 if (!document.isEncrypted()) {
                     AccessPermission ap = new AccessPermission();
 
@@ -44,7 +46,7 @@ public class PdfBoxPasswordProtection implements PasswordProtection {
                     document.protect(spp);
                 }
 
-                return pdfToBytes.bytes(document);
+                return pdfAsBytes.valueOf(document);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

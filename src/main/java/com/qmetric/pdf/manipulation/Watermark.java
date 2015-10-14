@@ -4,11 +4,11 @@ public interface Watermark {
     /**
      * Adds a watermark image to all pages
      *
-     * @param originalPdf in bytes
-     * @param watermarkImage in bytes
-     * @param password in bytes
+     * @param documentAsBytes as bytes
+     * @param watermarkImage  as bytes
+     * @param password        as bytes
      * @return new pdf with watermark image on every page
      * @throws RuntimeException if anything unexpected happens
      */
-    byte[] watermark(byte[] originalPdf, byte[] watermarkImage, byte[] password) throws RuntimeException;
+    byte[] watermark(byte[] documentAsBytes, byte[] watermarkImage, byte[] password) throws RuntimeException;
 }

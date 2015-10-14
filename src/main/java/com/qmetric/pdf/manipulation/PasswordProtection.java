@@ -4,20 +4,20 @@ public interface PasswordProtection {
     /**
      * Creates a new password protection pdf.
      *
-     * @param originalPdf in bytes
-     * @param password    in bytes
+     * @param documentAsBytes as bytes
+     * @param password        as bytes
      * @return new pdf without password protection
      * @throws RuntimeException if anything unexpected happens
      */
-    byte[] removeProtection(byte[] originalPdf, byte[] password) throws RuntimeException;
+    byte[] removeProtection(byte[] documentAsBytes, byte[] password) throws RuntimeException;
 
     /**
      * Creates a new password protection pdf.
      *
-     * @param originalPdf in bytes
-     * @param password    in bytes
+     * @param documentAsBytes as bytes
+     * @param password        as bytes
      * @return new pdf with password protection
      * @throws RuntimeException if anything unexpected happens
      */
-    byte[] addProtection(byte[] originalPdf, byte[] password) throws RuntimeException;
+    byte[] addProtection(byte[] documentAsBytes, byte[] password) throws RuntimeException;
 }

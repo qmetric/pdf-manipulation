@@ -1,5 +1,6 @@
 package com.qmetric.pdf.manipulation;
 
+import com.qmetric.pdf.manipulation.pdfbox.PdfBoxPasswordProtection;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.junit.Test;
 

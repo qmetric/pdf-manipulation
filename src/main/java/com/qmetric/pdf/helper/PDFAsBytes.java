@@ -1,11 +1,11 @@
-package com.qmetric.pdf.manipulation;
+package com.qmetric.pdf.helper;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
 import java.io.ByteArrayOutputStream;
 
-public class PDFToBytes {
-    public byte[] bytes(PDDocument document) throws RuntimeException {
+public class PDFAsBytes {
+    public byte[] valueOf(PDDocument document) throws RuntimeException {
         try (ByteArrayOutputStream result = new ByteArrayOutputStream()) {
             document.save(result);
             return result.toByteArray();
