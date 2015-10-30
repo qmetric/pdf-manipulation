@@ -74,8 +74,8 @@
 
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk14</artifactId>
-            <version>1.46</version>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.53</version>
         </dependency>
 
         <!-- test scoped dependencies -->
